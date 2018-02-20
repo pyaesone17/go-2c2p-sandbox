@@ -11,6 +11,13 @@ The first action will make post request json call to "result_url_2".
 
 The second action will show you the success page and if you click "Done", it will redirect back to "result_url_1".
 
+# Mocking Result 
+main success 
+
+main pending
+
+main fail
+
 # Note
 If you are using my sandbox, you cant compare hash value. Just assume as "True" as it is development purpose.
 
