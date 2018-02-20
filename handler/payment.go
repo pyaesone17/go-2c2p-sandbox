@@ -6,17 +6,19 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
 
+// Payment handler
 func Payment(c *gin.Context) {
 	redirectURL := c.PostForm("result_url_1")
 	redirectURL2 := c.PostForm("result_url_2")
 	ginData := gin.H{
 		"title":          "2c2p sandbox in Go lang",
 		"redirectURL":    redirectURL,
-		"payment_status": "000",
+		"payment_status": GetPaymentStatus(),
 		"payment_scheme": "MPU",
 		"currency":       "104",
 		"user_defined_5": c.PostForm("user_defined_5"),
@@ -35,7 +37,8 @@ func Payment(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.tmpl", ginData)
 }
 
-func PaymentJson(c *gin.Context) {
+//PaymentJSON should return
+func PaymentJSON(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"payment_status": "000",
 		"payment_scheme": "MPU",
@@ -66,4 +69,22 @@ func sendPostRequest(redirectURL string, data []byte) {
 	fmt.Println("response Headers:", resp.Header)
 	body, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println("response Body:", string(body))
+}
+
+// GetPaymentStatus is
+func GetPaymentStatus() string {
+	if len(os.Args) < 2 {
+		return "000"
+	}
+
+	switch os.Args[1] {
+	case "success":
+		return "000"
+	case "pending":
+		return "001"
+	case "fail":
+		return "003"
+	}
+
+	return "000"
 }
